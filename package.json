@@ -1,0 +1,26 @@
+{
+  "name": "reacttranslationserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qucumbah/reacttranslationserver.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qucumbah/reacttranslationserver/issues"
+  },
+  "homepage": "https://github.com/qucumbah/reacttranslationserver#readme",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "http": "0.0.0",
+    "node-fetch": "^2.6.0",
+    "url": "^0.11.0"
+  }
+}
