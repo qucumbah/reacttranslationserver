@@ -2,10 +2,22 @@ const http = require("http");
 const url = require("url");
 const dotenv = require("dotenv");
 const fetch = require("node-fetch");
+const mysql = require("mysql");
 
 //requires .env file to have
 //API_KEY=yourYandexDictionaryApiKey
+//DB_HOST=dbHost
+//DB_USER=dbUser
+//DB_PASS=dbPass
+//DB_NAME=dbName
 dotenv.config();
+
+const con = mysql.createConnection({
+	host: process.env.DB_HOST,
+	user: process.env.DB_USER,
+	password: process.env.DB_PASS,
+	database: process.env.DB_NAME,
+});
 
 http.createServer(async function(req, res) {
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -41,6 +53,10 @@ http.createServer(async function(req, res) {
 		}
 
 		res.write(JSON.stringify(result));
+	} else if (req.url.startsWith("/login")) {
+
+	} else if (req.url.startsWith("/signup")) {
+
 	}
 
 	res.end();
