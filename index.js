@@ -20,6 +20,7 @@ const {
 } = process.env;
 
 const app = express();
+app.use(cors()); //dev
 
 const db = new Datastore({ filename: 'database/db.json' });
 db.loadDatabase(function(err) {
@@ -44,14 +45,30 @@ app.use(session({
 }));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ strict: true }));
 
 app.post('/login', function(req, res) {
 	const {login, password} = req.body;
+
+	if (!login || !password) {
+		res.json({
+			code: 0,
+			errorMessages: ["You have to enter both login and password"]
+		});
+		return;
+	}
+
 	db.find({ login: login.trim() }, async function(err, docs) {
 		if (err) {
-			res.json({ code: 1 });
+			res.json({
+				code: 1,
+				errorMessages: ["We have some server-side problem, please retry later"]
+			});
 		} else if (docs.length===0) {
-			res.json({ code: 0 });
+			res.json({
+				code: 0,
+				errorMessages: ["Incorrect login or password"]
+			});
 		} else { //found user
 			const passwordCorrect = await bcrypt.compare(password, docs[0].hash);
 			if (passwordCorrect) {
@@ -68,10 +85,10 @@ app.post('/signup', async function(req, res) {
 
 	errorMessages = [];
 
-	if (!login.trim()) {
+	if (!login || !login.trim()) {
 		errorMessages.push('You have to enter your login');
 	}
-	if (!email.trim()) {
+	if (!email || !email.trim()) {
 		errorMessages.push('You have to enter your email');
 	}
 
